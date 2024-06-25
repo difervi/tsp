@@ -1,19 +1,37 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const session = require('express-session');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const app = express();
-require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
-// Routes
-const indexRoutes = require('./routes/index');
-app.use('/', indexRoutes);
+app.use(session({
+  secret: 'secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
 
-app.listen(3000, () => {
-  console.log('Server started on http://localhost:3000');
+const Product = require('./models/product');
+
+// Middleware para inicializar el carro de compras
+app.use((req, res, next) => {
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
+  next();
+});
+
+// Rutas aquí (ver siguiente sección)
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor iniciado en el puerto ${PORT}`);
 });

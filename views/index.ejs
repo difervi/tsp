@@ -9,17 +9,20 @@
 <body>
   <header>
     <h1>Tienda de Mascotas</h1>
+    <a href="/cart">Ver Carro</a>
   </header>
   <main>
     <h2>Productos</h2>
     <div class="products">
       <% products.forEach(product => { %>
         <div class="product">
-          <img src="../public/images/collar_perro.jpg" alt="<%= product.name %>">
+          <img src="/images/<%= product.image %>" alt="<%= product.name %>">
           <h3><%= product.name %></h3>
           <p><%= product.description %></p>
           <p>$<%= product.price %></p>
-          <a href="/product/<%= product._id %>">Ver Producto</a>
+          <form action="/add-to-cart/<%= product._id %>" method="POST">
+            <button type="submit">Añadir al Carro</button>
+          </form>
         </div>
       <% }) %>
     </div>

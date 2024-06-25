@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carro de Compras</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Carro de Compras</h1>
+    <a href="/">Volver a la Tienda</a>
+  </header>
+  <main>
+    <h2>Tu Carro</h2>
+    <% if (cart.length > 0) { %>
+      <ul>
+        <% cart.forEach(item => { %>
+          <li>
+            <img src="/images/<%= item.product.image %>" alt="<%= item.product.name %>">
+            <h3><%= item.product.name %></h3>
+            <p>Cantidad: <%= item.quantity %></p>
+            <p>Precio: $<%= item.product.price %></p>
+            <p>Total: $<%= item.product.price * item.quantity %></p>
+            <form action="/remove-from-cart/<%= item.product._id %>" method="POST">
+              <button type="submit">Eliminar</button>
+            </form>
+          </li>
+        <% }) %>
+      </ul>
+      <p>Total: $<%= cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0) %></p>
+    <% } else { %>
+      <p>Tu carro está vacío.</p>
+    <% } %>
+  </main>
+</body>
+</html>

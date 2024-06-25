@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= product.name %> - Tienda de Mascotas</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1><%= product.name %></h1>
+    <a href="/">Volver a la Tienda</a>
+    <a href="/cart">Ver Carro</a>
+  </header>
+  <main>
+    <div class="product-detail">
+      <img src="/images/<%= product.image %>" alt="<%= product.name %>">
+      <h2><%= product.name %></h2>
+      <p><%= product.description %></p>
+      <p>Precio: $<%= product.price %></p>
+      <form action="/add-to-cart/<%= product._id %>" method="POST">
+        <button type="submit">Añadir al Carro</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
